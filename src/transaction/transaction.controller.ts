@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { Transaction } from './transaction.schema';
+import { Transaction } from './schema/transaction.schema';
 
 @Controller('transaction')
 export class TransactionController {
