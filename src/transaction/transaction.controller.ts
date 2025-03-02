@@ -1,15 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Transaction } from './schema/transaction.schema';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
 @Controller('transaction')
+@UseGuards(JwtAuthGuard)
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto): Promise<Transaction> {
+  create(
+    @Body() createTransactionDto: CreateTransactionDto,
+  ): Promise<Transaction> {
     return this.transactionService.create(createTransactionDto);
   }
 
@@ -19,7 +33,9 @@ export class TransactionController {
   }
 
   @Get('type/:type')
-  findByType(@Param('type') type: 'EXPENSE' | 'INCOME'): Promise<Transaction[]> {
+  findByType(
+    @Param('type') type: 'EXPENSE' | 'INCOME',
+  ): Promise<Transaction[]> {
     return this.transactionService.findByType(type);
   }
 
@@ -40,7 +56,9 @@ export class TransactionController {
   }
 
   @Get('total/:type')
-  calculateTotalByType(@Param('type') type: 'EXPENSE' | 'INCOME'): Promise<number> {
+  calculateTotalByType(
+    @Param('type') type: 'EXPENSE' | 'INCOME',
+  ): Promise<number> {
     return this.transactionService.calculateTotalByType(type);
   }
 
